@@ -223,15 +223,49 @@ function deleteArticle(title) {
   }
 }
 
-function updateHeaderFooter(type) {
-  var element;
-  if (type === 'header') {
-    element = document.querySelector('header');
-  } else if (type === 'footer') {
-    element = document.querySelector('footer');
+function update(type) {
+  if (type === 'video') {
+    var url = document.getElementById('videoUrl').value;
+    var anchor = document.getElementById('videoAnchor').value;
+    var thumbnail = document.getElementById('videoThumbnail').value;
+
+    if (url && anchor && thumbnail) {
+      var videoId = extractVideoId(url);
+
+      var videoItem = videoList.find(function(video) {
+        return video.id === videoId;
+      });
+
+      if (videoItem) {
+        videoItem.anchor = anchor;
+        videoItem.thumbnail = thumbnail;
+      }
+      saveData();
+      renderVideoList();
+      clearVideoForm();
+    }
+  } else if (type === 'article') {
+    var title = document.getElementById('articleTitle').value;
+    var content = document.getElementById('articleContent').value;
+    var seoTags = document.getElementById('seoTags').value;
+
+    if (title && content) {
+      var articleItem = articleList.find(function(article) {
+        return article.title === title;
+      });
+
+      if (articleItem) {
+        articleItem.content = content;
+        articleItem.seoTags = seoTags;
+        articleItem.updated = new Date();
+      }
+      saveData();
+      renderArticleList();
+      clearArticleForm();
+    }
   }
 
-  var confirmUpdate = confirm('Are you sure you want to update the ' + type + '?');
+  var confirmUpdate = confirm('Are you sure you want to update this ' + type + '?');
   if (confirmUpdate) {
     showSuccessMessage(type.charAt(0).toUpperCase() + type.slice(1) + " updated successfully");
   }
@@ -264,7 +298,7 @@ function timeSince(date) {
 }
 
 function loadData() {
-  fetch('data.json')
+  fetch('/api/data')
     .then(response => response.json())
     .then(data => {
       videoList = data.videos || [];
@@ -280,7 +314,7 @@ function saveData() {
     videos: videoList,
     articles: articleList
   };
-  fetch('data.json', {
+  fetch('/api/data', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
