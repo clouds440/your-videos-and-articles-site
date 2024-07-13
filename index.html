@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Video Site</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1 contenteditable="true">Welcome to Your Video Site</h1>
+    <p contenteditable="true">Explore inspiring videos on various topics.</p>
+    <button class="edit-header" onclick="updateHeaderFooter('header')">Update</button>
+  </header>
+
+  <main class="container">
+    <section class="video-container">
+      <h2>Featured Video</h2>
+      <div class="video">
+        <div class="video-player-wrapper">
+          <div class="video-thumbnail" id="thumbnail" onclick="resumeVideo()">
+            <a href="#" class="video-link" id="resumeLink" onclick="resumeVideo(); return false;">Resume Video</a>
+          </div>
+          <iframe id="mainPlayer" class="video-iframe" src="https://www.youtube.com/embed/VIDEO_ID?enablejsapi=1" frameborder="0" allowfullscreen></iframe>
+        </div>
+      </div>
+    </section>
+
+    <section class="video-list" id="videoList">
+      <h2>Video List</h2>
+    </section>
+
+    <button onclick="loadMoreVideos()">Explore More Videos</button>
+
+    <section class="upload-form">
+      <h2>Add New Video</h2>
+      <input type="text" id="videoUrl" placeholder="YouTube Video URL">
+      <input type="text" id="videoAnchor" placeholder="Anchor Text (max 70 characters)">
+      <input type="text" id="videoThumbnail" placeholder="Thumbnail URL">
+      <button onclick="addVideo()">Add Video</button>
+      <button id="cancelEditVideo" class="cancel-edit" onclick="cancelEdit('video')">Cancel Edit</button>
+    </section>
+
+    <section class="article-list" id="articleList">
+      <h2>Articles</h2>
+    </section>
+
+    <section class="article-form">
+      <h2>Add New Article</h2>
+      <input type="text" id="articleTitle" placeholder="Article Title">
+      <textarea id="articleContent" rows="5" placeholder="Article Content"></textarea>
+      <input type="text" id="seoTags" placeholder="SEO Tags (e.g., h tags, bold, paragraph)" style="display: none;">
+      <button onclick="addArticle()">Add Article</button>
+      <button id="cancelEditArticle" class="cancel-edit" onclick="cancelEdit('article')">Cancel Edit</button>
+    </section>
+  </main>
+
+  <footer>
+    <p contenteditable="true">&copy; 2024 Your Video Site. All rights reserved.</p>
+    <button class="edit-footer" onclick="updateHeaderFooter('footer')">Update</button>
+  </footer>
+
+  <div id="uploadBar">
+    <span id="uploadStatus"></span>
+  </div>
+
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script src="script.js"></script>
+</body>
+</html>
